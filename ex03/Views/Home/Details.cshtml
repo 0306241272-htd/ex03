@@ -1,0 +1,45 @@
+﻿@model ex03.Models.Product
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="container my-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+        </ol>
+    </nav>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-5 text-center">
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid rounded shadow-sm" style="max-height: 350px;" />
+                    }
+                    else
+                    {
+                        <div class="bg-secondary text-white p-5 rounded">Chưa có hình ảnh</div>
+                    }
+                </div>
+                <div class="col-md-7">
+                    <h2>@Model.Name</h2>
+                    <p class="text-muted">
+                        Danh mục: <b>@(Model.Category != null ? Model.Category.Name : "Khác")</b>
+                    </p>
+                    <h3 class="text-danger fw-bold my-3">@Model.Price.ToString("N0") VNĐ</h3>
+                    <hr />
+                    <h5>Mô tả sản phẩm:</h5>
+                    <p>@(string.IsNullOrEmpty(Model.Description) ? "Chưa có mô tả cho sản phẩm này." : Model.Description)</p>
+                    <hr />
+                    <a href="/" class="btn btn-secondary">
+                        <i class="fa fa-arrow-left"></i> Quay lại trang chủ
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

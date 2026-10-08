@@ -1,0 +1,18 @@
+﻿@model ex03.Models.Order
+
+@{
+    ViewData["Title"] = "Đặt hàng thành công";
+}
+
+<div class="text-center py-5">
+    <div class="text-success mb-3">
+        <i class="fa fa-check-circle display-1"></i>
+    </div>
+    <h2 class="fw-bold text-success">CẢM ƠN BẠN ĐÃ ĐẶT HÀNG!</h2>
+    <p class="fs-5">Mã đơn hàng của bạn là: <b class="text-primary">#@Model.Id</b></p>
+    <p class="text-muted">Chúng tôi sẽ liên hệ tới số điện thoại <b>@Model.Phone</b> để xác nhận và giao hàng trong thời gian sớm nhất.</p>
+
+    <div class="mt-4">
+        <a href="/" class="btn btn-primary btn-lg">Quay về Trang chủ</a>
+    </div>
+</div>

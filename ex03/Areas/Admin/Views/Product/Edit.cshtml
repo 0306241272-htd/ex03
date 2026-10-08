@@ -1,0 +1,63 @@
+@model ex03.Models.Product
+
+@{
+    ViewData["Title"] = "Chỉnh sửa sản phẩm";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading"><b>Chỉnh sửa thông tin sản phẩm</b></div>
+    <div class="panel-body">
+        <form action="/Admin/Product/Edit/@Model.Id" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <input type="hidden" name="ImageUrl" value="@Model.ImageUrl" />
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label class="control-label">Tên sản phẩm</label>
+                <input name="Name" value="@Model.Name" class="form-control" required />
+            </div>
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label class="control-label">Giá bán (VNĐ)</label>
+                <input name="Price" type="number" step="1000" value="@Model.Price" class="form-control" required />
+            </div>
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label class="control-label">Danh mục sản phẩm</label>
+                <select name="CategoryId" class="form-control" required>
+                    @if (ViewBag.Categories != null)
+                    {
+                        foreach (var cat in (List<ex03.Models.Category>)ViewBag.Categories)
+                        {
+                            <option value="@cat.Id" selected="@(cat.Id == Model.CategoryId)">@cat.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label class="control-label">Hình ảnh hiện tại</label>
+                <div style="margin-bottom: 10px;">
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" alt="@Model.Name" style="max-width: 120px;" class="img-thumbnail" />
+                    }
+                    else
+                    {
+                        <span class="text-muted">Chưa có ảnh</span>
+                    }
+                </div>
+                <label class="control-label">Chọn ảnh mới (để trống nếu muốn giữ ảnh cũ):</label>
+                <input type="file" name="ImageFile" class="form-control" accept="image/*" />
+            </div>
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label class="control-label">Mô tả sản phẩm</label>
+                <textarea name="Description" class="form-control" rows="4">@Model.Description</textarea>
+            </div>
+
+            <button type="submit" class="btn btn-warning"><i class="fa fa-save"></i> Cập nhật</button>
+            <a href="/Admin/Product" class="btn btn-default"><i class="fa fa-arrow-left"></i> Quay lại</a>
+        </form>
+    </div>
+</div>

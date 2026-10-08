@@ -1,0 +1,26 @@
+@model ex03.Models.Category
+
+@{
+    ViewData["Title"] = "Thêm mới danh mục";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <b>Thêm mới danh mục sản phẩm</b>
+    </div>
+    <div class="panel-body">
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label asp-for="Name" class="control-label">Tên danh mục</label>
+                <input asp-for="Name" name="Name" class="form-control" placeholder="Nhập tên danh mục (VD: Điện thoại, Laptop...)" required />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Lưu lại</button>
+            <a href="/Admin/Category" class="btn btn-default"><i class="fa fa-arrow-left"></i> Quay lại</a>
+        </form>
+    </div>
+</div>

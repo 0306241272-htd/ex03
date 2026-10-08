@@ -1,0 +1,61 @@
+﻿@model IEnumerable<ex03.Models.Order>
+
+@{
+    ViewData["Title"] = "Quản lý Đơn hàng";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <b>Danh sách Đơn hàng</b>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Mã ĐH</th>
+                    <th>Khách hàng</th>
+                    <th>SĐT</th>
+                    <th>Ngày đặt</th>
+                    <th>Tổng tiền</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>#@item.Id</td>
+                        <td>@item.CustomerName</td>
+                        <td>@item.Phone</td>
+                        <td>@item.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td class="text-danger fw-bold">@item.TotalAmount.ToString("N0") VNĐ</td>
+                        <td>
+                            @if (item.Status == "Chờ xử lý")
+                            {
+                                <span class="label label-warning">Chờ xử lý</span>
+                            }
+                            else if (item.Status == "Đang giao")
+                            {
+                                <span class="label label-info">Đang giao</span>
+                            }
+                            else if (item.Status == "Hoàn thành")
+                            {
+                                <span class="label label-success">Hoàn thành</span>
+                            }
+                            else
+                            {
+                                <span class="label label-danger">Hủy</span>
+                            }
+                        </td>
+                        <td>
+                            <a href="/Admin/Order/Details/@item.Id" class="btn btn-xs btn-primary">
+                                Chi tiết
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

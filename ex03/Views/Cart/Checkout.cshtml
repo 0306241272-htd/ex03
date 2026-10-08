@@ -1,0 +1,79 @@
+﻿@model ex03.Models.Order
+
+@{
+    ViewData["Title"] = "Thanh toán";
+    var cart = ViewBag.Cart as List<ex03.Models.CartItem>;
+    decimal totalAmount = ViewBag.TotalAmount ?? 0;
+}
+
+<h2 class="mb-4">Thông tin Đặt hàng</h2>
+
+<div class="row">
+    <!-- Form điền thông tin khách hàng -->
+    <div class="col-md-7">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="card-title mb-0">Thông tin giao hàng</h5>
+            </div>
+            <div class="card-body">
+                <form action="/Cart/Checkout" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="mb-3">
+                        <label class="form-label">Họ và tên <span class="text-danger">*</span></label>
+                        <input asp-for="CustomerName" class="form-control" required placeholder="Nguyễn Văn A" />
+                        <span asp-validation-for="CustomerName" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Số điện thoại <span class="text-danger">*</span></label>
+                        <input asp-for="Phone" class="form-control" required placeholder="0901234567" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Địa chỉ nhận hàng <span class="text-danger">*</span></label>
+                        <input asp-for="Address" class="form-control" required placeholder="Số nhà, đường, quận/huyện, tỉnh/thành" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Ghi chú đơn hàng</label>
+                        <textarea asp-for="Note" class="form-control" rows="3" placeholder="Ghi chú thêm về đơn hàng (nếu có)"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-success btn-lg w-100">Xác nhận Đặt hàng</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tóm tắt đơn hàng -->
+    <div class="col-md-5">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h5 class="card-title mb-0">Tóm tắt đơn hàng</h5>
+            </div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    @if (cart != null)
+                    {
+                        foreach (var item in cart)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-0">@item.ProductName</h6>
+                                    <small class="text-muted">Số lượng: @item.Quantity x @item.Price.ToString("N0") VNĐ</small>
+                                </div>
+                                <span class="fw-bold">@item.TotalPrice.ToString("N0") VNĐ</span>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+            <div class="card-footer bg-light d-flex justify-content-between align-items-center">
+                <span class="fs-5 fw-bold">Tổng thanh toán:</span>
+                <span class="fs-4 fw-bold text-danger">@totalAmount.ToString("N0") VNĐ</span>
+            </div>
+        </div>
+    </div>
+</div>

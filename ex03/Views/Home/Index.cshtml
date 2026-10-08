@@ -1,0 +1,118 @@
+﻿@using ex03.Helpers
+@model PaginatedList<ex03.Models.Product>
+
+@{
+    // Ép buộc Trang chủ sử dụng Layout dành riêng cho Client
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Trang chủ - Cửa hàng trực tuyến";
+    var categories = ViewBag.Categories as List<ex03.Models.Category>;
+    int? currentCategory = ViewBag.CurrentCategory;
+}
+
+<div class="row">
+    <!-- Sidebar: Danh mục sản phẩm -->
+    <div class="col-md-3">
+        <h4 class="my-4">Danh mục</h4>
+        <div class="list-group">
+            <a href="/" class="list-group-item list-group-item-action @(currentCategory == null ? "active" : "")">
+                Tất cả sản phẩm
+            </a>
+            @if (categories != null)
+            {
+                foreach (var cat in categories)
+                {
+                    <a href="/?categoryId=@cat.Id"
+                       class="list-group-item list-group-item-action @(currentCategory == cat.Id ? "active" : "")">
+                        @cat.Name
+                    </a>
+                }
+            }
+        </div>
+    </div>
+
+    <!-- Danh sách sản phẩm -->
+    <div class="col-md-9">
+        <h4 class="my-4">Danh sách sản phẩm</h4>
+        <div class="row">
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <a href="/Home/Details/@item.Id">
+                                @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                {
+                                    <img class="card-img-top" src="@item.ImageUrl" alt="@item.Name" style="height: 200px; object-fit: cover;">
+                                }
+                                else
+                                {
+                                    <div class="bg-secondary text-white text-center py-5" style="height: 200px;">Không có ảnh</div>
+                                }
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/Home/Details/@item.Id" class="text-decoration-none text-dark">@item.Name</a>
+                                </h5>
+                                <h6 class="text-danger fw-bold">@item.Price.ToString("N0") VNĐ</h6>
+                                <p class="card-text text-muted small">
+                                    Danh mục: <span class="badge bg-info">@(item.Category != null ? item.Category.Name : "Khác")</span>
+                                </p>
+                            </div>
+                            <!-- NÚT XEM CHI TIẾT & THÊM VÀO GIỎ -->
+                            <div class="card-footer bg-white border-top-0 d-flex gap-2">
+                                <a href="/Home/Details/@item.Id" class="btn btn-outline-primary btn-sm flex-fill">
+                                    Xem chi tiết
+                                </a>
+                                <a href="/Cart/AddToCart/@item.Id" class="btn btn-success btn-sm flex-fill">
+                                    <i class="fa fa-cart-plus"></i> Thêm vào giỏ
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center text-muted py-5">
+                    <h5>Không tìm thấy sản phẩm nào trong danh mục này.</h5>
+                </div>
+            }
+        </div>
+
+        <!-- Thanh phân trang Client -->
+        @if (Model != null && Model.TotalPages > 1)
+        {
+            <nav class="mt-4 mb-5">
+                <ul class="pagination justify-content-center">
+                    <!-- Nút Trang trước -->
+                    <li class="page-item @(!Model.HasPreviousPage ? "disabled" : "")">
+                        <a class="page-link"
+                           asp-action="Index"
+                           asp-route-pageNumber="@(Model.PageIndex - 1)"
+                           asp-route-categoryId="@currentCategory">&laquo; Trước</a>
+                    </li>
+
+                    <!-- Các nút số trang -->
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                            <a class="page-link"
+                               asp-action="Index"
+                               asp-route-pageNumber="@i"
+                               asp-route-categoryId="@currentCategory">@i</a>
+                        </li>
+                    }
+
+                    <!-- Nút Trang sau -->
+                    <li class="page-item @(!Model.HasNextPage ? "disabled" : "")">
+                        <a class="page-link"
+                           asp-action="Index"
+                           asp-route-pageNumber="@(Model.PageIndex + 1)"
+                           asp-route-categoryId="@currentCategory">Sau &raquo;</a>
+                    </li>
+                </ul>
+            </nav>
+        }
+    </div>
+</div>

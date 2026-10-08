@@ -1,0 +1,23 @@
+@model ex03.Models.Category
+
+@{
+    ViewData["Title"] = "Chỉnh sửa danh mục";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading"><b>Chỉnh sửa danh mục</b></div>
+    <div class="panel-body">
+        <form action="/Admin/Category/Edit/@Model.Id" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="Id" value="@Model.Id" />
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label class="control-label">Tên danh mục</label>
+                <input name="Name" value="@Model.Name" class="form-control" required />
+            </div>
+
+            <button type="submit" class="btn btn-warning"><i class="fa fa-save"></i> Cập nhật</button>
+            <a href="/Admin/Category" class="btn btn-default"><i class="fa fa-arrow-left"></i> Quay lại</a>
+        </form>
+    </div>
+</div>

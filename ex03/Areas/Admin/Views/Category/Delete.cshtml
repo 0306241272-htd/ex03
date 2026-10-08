@@ -1,0 +1,21 @@
+@model ex03.Models.Category
+
+@{
+    ViewData["Title"] = "Xóa danh mục";
+}
+
+<div class="panel panel-danger">
+    <div class="panel-heading"><b>Xác nhận xóa danh mục</b></div>
+    <div class="panel-body">
+        <h4 class="text-danger">Bạn có chắc chắn muốn xóa danh mục này?</h4>
+        <hr />
+        <p><strong>Tên danh mục:</strong> @Model.Name</p>
+
+        <form action="/Admin/Category/Delete/@Model.Id" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Xác nhận Xóa</button>
+            <a href="/Admin/Category" class="btn btn-default"><i class="fa fa-arrow-left"></i> Hủy bỏ</a>
+        </form>
+    </div>
+</div>

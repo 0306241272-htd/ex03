@@ -1,0 +1,74 @@
+﻿@model ex03.Models.Order
+
+@{
+    ViewData["Title"] = "Chi tiết Đơn hàng #" + Model.Id;
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-info">
+            <div class="panel-heading"><b>Thông tin Khách hàng</b></div>
+            <div class="panel-body">
+                <p><b>Họ tên:</b> @Model.CustomerName</p>
+                <p><b>Số điện thoại:</b> @Model.Phone</p>
+                <p><b>Địa chỉ:</b> @Model.Address</p>
+                <p><b>Ghi chú:</b> @(string.IsNullOrEmpty(Model.Note) ? "Không có" : Model.Note)</p>
+                <p><b>Ngày đặt:</b> @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="panel panel-warning">
+            <div class="panel-heading"><b>Cập nhật Trạng thái Đơn hàng</b></div>
+            <div class="panel-body">
+                <form action="/Admin/Order/UpdateStatus" method="post" class="form-inline">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <div class="form-group me-2">
+                        <select name="status" class="form-control">
+                            <option value="Chờ xử lý" selected="@(Model.Status == "Chờ xử lý")">Chờ xử lý</option>
+                            <option value="Đang giao" selected="@(Model.Status == "Đang giao")">Đang giao</option>
+                            <option value="Hoàn thành" selected="@(Model.Status == "Hoàn thành")">Hoàn thành</option>
+                            <option value="Hủy" selected="@(Model.Status == "Hủy")">Hủy</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Lưu trạng thái</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading"><b>Sản phẩm đã đặt</b></div>
+    <div class="panel-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th>Đơn giá</th>
+                    <th>Số lượng</th>
+                    <th>Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var detail in Model.OrderDetails)
+                {
+                    <tr>
+                        <td>@(detail.Product != null ? detail.Product.Name : "N/A")</td>
+                        <td>@detail.UnitPrice.ToString("N0") VNĐ</td>
+                        <td>@detail.Quantity</td>
+                        <td>@((detail.UnitPrice * detail.Quantity).ToString("N0")) VNĐ</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-right"><b>Tổng tiền đơn hàng:</b></td>
+                    <td class="text-danger"><b>@Model.TotalAmount.ToString("N0") VNĐ</b></td>
+                </tr>
+            </tfoot>
+        </table>
+        <a href="/Admin/Order" class="btn btn-default">Quay lại danh sách</a>
+    </div>
+</div>

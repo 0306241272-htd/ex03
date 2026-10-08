@@ -1,0 +1,33 @@
+@model ex03.Models.Product
+
+@{
+    ViewData["Title"] = "Xóa sản phẩm";
+}
+
+<div class="panel panel-danger">
+    <div class="panel-heading"><b>Xác nhận xóa sản phẩm</b></div>
+    <div class="panel-body">
+        <h4 class="text-danger">Bạn có chắc chắn muốn xóa sản phẩm này? Thao tác không thể hoàn tác!</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-2 text-center">
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="@Model.ImageUrl" alt="@Model.Name" class="img-thumbnail" style="max-width: 100%;" />
+                }
+            </div>
+            <div class="col-md-10">
+                <p><strong>Tên sản phẩm:</strong> @Model.Name</p>
+                <p><strong>Giá bán:</strong> @Model.Price.ToString("N0") VNĐ</p>
+                <p><strong>Danh mục:</strong> @(Model.Category != null ? Model.Category.Name : "Chưa phân loại")</p>
+
+                <form action="/Admin/Product/Delete/@Model.Id" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="Id" value="@Model.Id" />
+                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Xác nhận Xóa</button>
+                    <a href="/Admin/Product" class="btn btn-default"><i class="fa fa-arrow-left"></i> Hủy bỏ</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
