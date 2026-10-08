@@ -43,10 +43,11 @@ Quản lý Đơn hàng: Xem danh sách đơn, chi tiết đơn hàng và cập n
 3. Cơ sở dữ liệu & Sao lưu
 Kết nối CSDL SQL Server tên ex03_db.
 
-Hỗ trợ xuất/nhập toàn bộ CSDL bao gồm cả Schema và Data ra file ex03_database.sql
+Hỗ trợ xuất/nhập toàn bộ CSDL bao gồm cả Schema và Data ra file ex03_database.sql.
 
 ---
 
 ##  Hướng dẫn Chạy dự án
 
-
+1. mở ssms chạy file sql trong thư mục tải về.
+2. chạy dự án.
