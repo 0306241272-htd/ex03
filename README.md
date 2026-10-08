@@ -49,4 +49,4 @@ Hỗ trợ xuất/nhập toàn bộ CSDL bao gồm cả Schema và Data ra file 
 
 ##  Hướng dẫn Chạy dự án
 
-1. Mở cmd trong thư mục chứa dự án (ex03-main\ex03): dotnet tool install --global dotnet-ef -> dotnet ef database update
+
